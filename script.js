@@ -1,4 +1,4 @@
-delete document.body.onwheel;
+document.body.onwheel = null;
 let i = 0;
 const rect2key = ({ x, y, w, h }) =>
   zoom + "|" + x + "|" + y + "|" + w + "|" + h;
@@ -49,6 +49,14 @@ scrollbar = (r, n, line, page, scroll, visible, inverted) => {
     if (newele) {
       ele.scrollTop = scroll * zoom;
     } else {
+      const diff = result.scroll - scroll;
+      if (diff !== 0) {
+        ele.scrollBy({
+          top: diff,
+          left: 0,
+          behavior: "instant",
+        });
+      }
       result.scroll = Math.round(ele.scrollTop / zoom);
     }
   }
